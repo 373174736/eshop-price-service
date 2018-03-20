@@ -17,6 +17,9 @@ public interface ProductPriceMapper {
     public void delete(Integer id);
     @Select("SELECT * FROM product_price WHERE id=#{id}")
     public ProductPrice findById(Integer id);
-    @Select("SELECT * FROM product_price WHERE product_id=#{productIdd} limit 1")
-    public ProductPrice findByProductId(Integer productIdd);
+    @Select("SELECT * FROM product_price WHERE product_id=#{productId} limit 1")
+    @Results({
+            @Result(column = "product_id", property = "productId"),
+    })
+    public ProductPrice findByProductId(Integer productId);
 }
