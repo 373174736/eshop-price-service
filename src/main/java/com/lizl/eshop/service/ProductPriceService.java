@@ -14,4 +14,6 @@ public interface ProductPriceService {
     public void delete(Integer id);
 
     public ProductPrice findById(Integer id);
+
+    public ProductPrice findByProductId(Integer productId);
 }

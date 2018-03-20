@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lizl.eshop.mapper.ProductPriceMapper;
 import com.lizl.eshop.model.ProductPrice;
 import com.lizl.eshop.service.ProductPriceService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -42,4 +43,19 @@ public class ProductPriceServiceImpl implements ProductPriceService{
     public ProductPrice findById(Integer id) {
         return productPriceMapper.findById(id);
     }
+
+    public ProductPrice findByProductId(Integer productId) {
+        Jedis jedis = jedisPool.getResource();
+        String dataJson = jedis.get("product_price_" + productId);
+
+        if(StringUtils.isNotEmpty(dataJson)){
+            JSONObject datasJSONObject = JSONObject.parseObject(dataJson);
+            datasJSONObject.put("id", "-1");
+            return JSONObject.parseObject(datasJSONObject.toJSONString(), ProductPrice.class);
+        }else {
+            return productPriceMapper.findByProductId(productId);
+        }
+    }
+
+
 }

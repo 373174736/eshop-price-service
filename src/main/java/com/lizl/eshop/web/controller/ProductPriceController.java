@@ -43,11 +43,22 @@ public class ProductPriceController {
         }
     }
 
-    @RequestMapping("findById")
+    @RequestMapping("/findById")
     @ResponseBody
     public ProductPrice findById(Integer id){
         try {
             return  productPriceService.findById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ProductPrice();
+    }
+
+    @RequestMapping("/findByProductId")
+    @ResponseBody
+    public ProductPrice findByProductId(Integer productId){
+        try {
+            return  productPriceService.findByProductId(productId);
         }catch (Exception e){
             e.printStackTrace();
         }
